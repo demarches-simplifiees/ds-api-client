@@ -1,0 +1,35 @@
+{
+  "name": "ds-api-client",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "ds": "bun src/command.ts",
+    "compile": "bun build ./src/command.ts --compile --minify --target bun --outfile ds-api-client",
+    "up": "npx npm-check-updates --interactive --format group",
+    "sharp:install": "cd node_modules/sharp && bun install && cd ../.."
+  },
+  "devDependencies": {
+    "@commander-js/extra-typings": "^11.0.0",
+    "@types/cli-progress": "^3.11.2",
+    "@types/geojson": "^7946.0.10",
+    "@types/proj4": "^2.5.2",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "trustedDependencies": ["sharp"],
+  "dependencies": {
+    "@turf/turf": "^6.5.0",
+    "chrono-node": "^2.7.0",
+    "cli-progress": "^3.12.0",
+    "commander": "^11.0.0",
+    "console-table-printer": "^2.11.2",
+    "geojson2svg": "^2.0.1",
+    "ky": "^1.0.1",
+    "proj4": "^2.9.0",
+    "remeda": "^1.26.0",
+    "sharp": "^0.32.5",
+    "zod": "^3.22.2"
+  }
+}
