@@ -19,6 +19,13 @@ bun install
 bun sharp:install
 ```
 
+# Step 2.1 (optional) : Rebuild for your chip architecture
+If you are running this script on m2 chip (with arm64 instruction set), you might need to :
+```bash
+npm install --platform=darwin --arch=x64 sharp
+npm rebuild --platform=darwin --arch=arm64 sharp
+```
+
 ## Step 3: Provide DS token
 ```bash
 echo "GRAPHQL_TOKEN=<TOKEN>" >> .env
