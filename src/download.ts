@@ -18,7 +18,6 @@ import {
   filenameWithDossierNumber,
   rowColor,
   checksum,
-  TIMEOUT,
 } from './utils';
 
 async function downloadAttachments(

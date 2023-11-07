@@ -12,10 +12,8 @@
     "@types/cli-progress": "^3.11.5",
     "@types/geojson": "^7946.0.13",
     "@types/proj4": "^2.5.5",
-    "bun-types": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+    "bun-types": "latest",
+    "typescript": "^5.2.2"
   },
   "trustedDependencies": ["sharp"],
   "dependencies": {

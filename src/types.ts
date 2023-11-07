@@ -4,8 +4,6 @@ export type DossierNode = {
   number: number;
   state: string;
   dateDerniereModification: string;
-  datePassageEnConstruction: string;
-  datePassageEnInstruction: string;
   demarche: { number: number; title: string };
   messages?: { id: string }[];
   avis?: { id: string }[];

@@ -5,7 +5,6 @@ import type { Table } from 'console-table-printer';
 
 export const DEFAULT_PARALLEL_DOWNLOADS = 20;
 export const DEFAULT_OUTPUT_DIRECTORY = './data';
-export const TIMEOUT = 1000 * 120; // 2 minutes
 
 const byteValueNumberFormatter = Intl.NumberFormat('en-GB', {
   notation: 'compact',
