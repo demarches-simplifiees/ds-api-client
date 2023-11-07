@@ -1,0 +1,17 @@
+name: Build CLI
+
+on: [push]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - run: bun run compile
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ds-api-client-linux
+          path: ds-api-client
