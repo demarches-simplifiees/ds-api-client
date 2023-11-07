@@ -9,21 +9,17 @@
 	</a>
 </p>
 
-## Step 1: Install Bun
-Install Bun by following their installation guide, which can be found [here](https://bun.sh/docs/installation).
+## Step 1: Download (Linux or MacOS)
 
-## Step 2: Install dependencies
-```bash
-bun install
-```
+[download](https://github.com/demarches-simplifiees/ds-api-client/releases/latest)
 
-## Step 3: Provide DS token
+## Step 2: Provide DS token
 ```bash
 echo "GRAPHQL_TOKEN=<TOKEN>" >> .env
 ```
 
-## Step 4: Run
+## Step 3: Run
 ```bash
-bun ds dossier <dossierNumber> --json
-bun ds dossiers <demarcheNumber>  --table
+ds-api-client dossier <dossierNumber> --json
+ds-api-client dossiers <demarcheNumber>  --table
 ```
