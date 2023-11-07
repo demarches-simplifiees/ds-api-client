@@ -15,8 +15,6 @@ Install Bun by following their installation guide, which can be found [here](htt
 ## Step 2: Install dependencies
 ```bash
 bun install
-# A hack around a bun limitation that will be fixed soon
-bun sharp:install
 ```
 
 ## Step 3: Provide DS token
