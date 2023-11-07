@@ -6,13 +6,24 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: [build-linux, build-macos]
+    permissions:
+      contents: write
     steps:
+      - name: Download Linux build
+        uses: actions/download-artifact@v3
+        with:
+          name: linux.zip
+      - name: Download macOS build
+        uses: actions/download-artifact@v3
+        with:
+          name: macos.zip
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          generate_release_notes: true
-          files: builds
+          generateReleaseNotes: true
+          artifacts: linux.zip, macos.zip
+          artifactErrorsFailBuild: true
   build-linux:
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +35,6 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: builds
           path: linux.zip
   build-macos:
     runs-on: macos-latest
@@ -37,5 +47,4 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: builds
           path: macos.zip
