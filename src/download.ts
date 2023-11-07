@@ -9,7 +9,7 @@ import type {
   FeatureCollectionWithFileNumber,
 } from './types';
 import { attachmentsByteSize } from './attachment';
-import { renderGeoJSON } from './geo-render';
+import { renderGeoSVG } from './geo-render';
 import {
   formatTime,
   formatByteSize,
@@ -97,9 +97,9 @@ async function downloadFeatureCollection(
     const bar = new progress.SingleBar({}, progress.Presets.shades_classic);
     bar.start(featuresByFileNumber.length, 0);
     for (const [dossierNumber, features] of featuresByFileNumber) {
-      await renderGeoJSON(
+      await renderGeoSVG(
         { type: 'FeatureCollection', features },
-        filenameWithDossierNumber(outdir, parseInt(dossierNumber), 'geo.png')
+        filenameWithDossierNumber(outdir, parseInt(dossierNumber), 'geo.svg')
       );
       bar.increment();
     }
