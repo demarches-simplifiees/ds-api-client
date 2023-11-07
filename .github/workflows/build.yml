@@ -14,17 +14,19 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           name: ds-api-client-linux
+          path: linux/
       - name: Download macOS build
         uses: actions/download-artifact@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           name: ds-api-client-macos
+          path: macos/
       - name: Release
         uses: ncipollo/release-action@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           generateReleaseNotes: true
-          artifacts: "ds-api-client-linux, ds-api-client-macos"
+          artifacts: "linux/ds-api-client, macos/ds-api-client"
           artifactErrorsFailBuild: true
   build-linux:
     runs-on: ubuntu-latest
