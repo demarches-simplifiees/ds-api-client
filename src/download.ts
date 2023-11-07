@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import progress from 'cli-progress';
 import * as R from 'remeda';
 import type { Table } from 'console-table-printer';
-import ky from 'ky';
 
 import type {
   Attachment,
@@ -45,8 +44,7 @@ async function downloadAttachments(
       const existingBlobOK = await checksum(existingBlob, attachment.checksum);
 
       if (!existingBlobOK) {
-        const blob = await ky
-          .get(attachment.url, { timeout: TIMEOUT, retry: 2 })
+        const blob = await fetch(attachment.url)
           .then((response) => (response.ok ? response.blob() : null))
           .catch((error) => {
             console.error(error);

@@ -1,8 +1,6 @@
-import ky, { type Options } from 'ky';
-
 import type { GraphQLResultOne, GraphQLResultMany, Page } from './types';
 import { collectAttachments, collectGeoJSON } from './attachment';
-import { formatTime, TIMEOUT } from './utils';
+import { formatTime } from './utils';
 
 const GRAPHQL_ENDPOINT =
   process.env.GRAPHQL_ENDPOINT ??
@@ -25,28 +23,28 @@ export async function fetchMany(
   }
 ): Promise<Page> {
   const start = performance.now();
-  const result = await ky
-    .post(GRAPHQL_ENDPOINT, {
-      ...graphqlFetchOptions(options?.token),
-      body: JSON.stringify({
-        queryId: 'ds-query-v2',
-        variables: {
-          demarcheNumber,
-          first: options?.first,
-          last: options?.last,
-          after: options?.after,
-          before: options?.before,
-          updatedSince: options?.updatedSince,
-          includeMessages: options?.messages,
-          includeAvis: options?.avis,
-          includeDossiers: true,
-          includeGeometry: true,
-          includeInstructeurs: false,
-        },
-        operationName: 'getDemarche',
-      }),
-    })
-    .json<GraphQLResultMany>()
+  const result = await fetch(GRAPHQL_ENDPOINT, {
+    ...graphqlFetchOptions(options?.token),
+    method: 'POST',
+    body: JSON.stringify({
+      queryId: 'ds-query-v2',
+      variables: {
+        demarcheNumber,
+        first: options?.first,
+        last: options?.last,
+        after: options?.after,
+        before: options?.before,
+        updatedSince: options?.updatedSince,
+        includeMessages: options?.messages,
+        includeAvis: options?.avis,
+        includeDossiers: true,
+        includeGeometry: true,
+        includeInstructeurs: false,
+      },
+      operationName: 'getDemarche',
+    }),
+  })
+    .then((res) => res.json<GraphQLResultMany>())
     .catch((error: Error) => {
       return { errors: [error], data: null };
     });
@@ -89,22 +87,21 @@ export async function fetchOne(
   }
 ): Promise<Page> {
   const start = performance.now();
-  const result = await ky
-    .post(GRAPHQL_ENDPOINT, {
-      ...graphqlFetchOptions(options?.token),
-      body: JSON.stringify({
-        queryId: 'ds-query-v2',
-        variables: {
-          dossierNumber,
-          includeMessages: options?.messages,
-          includeAvis: options?.avis,
-          includeGeometry: true,
-          includeInstructeurs: false,
-        },
-        operationName: 'getDossier',
-      }),
-    })
-    .json<GraphQLResultOne>()
+  const result = await fetch(GRAPHQL_ENDPOINT, {
+    ...graphqlFetchOptions(options?.token),
+    body: JSON.stringify({
+      queryId: 'ds-query-v2',
+      variables: {
+        dossierNumber,
+        includeMessages: options?.messages,
+        includeAvis: options?.avis,
+        includeGeometry: true,
+        includeInstructeurs: false,
+      },
+      operationName: 'getDossier',
+    }),
+  })
+    .then((res) => res.json<GraphQLResultOne>())
     .catch((error: Error) => {
       return { errors: [error], data: null };
     });
@@ -136,13 +133,13 @@ export async function fetchOne(
   };
 }
 
-const graphqlFetchOptions = (token?: string): Options => ({
+const graphqlFetchOptions = (token?: string) => ({
+  method: 'POST',
   headers: {
     'content-type': 'application/json',
     authorization: `Bearer ${token ?? GRAPHQL_TOKEN}`,
   },
-  timeout: TIMEOUT,
-  retry: 5,
+  timeout: true,
 });
 
 const emptyPage: Page = {
