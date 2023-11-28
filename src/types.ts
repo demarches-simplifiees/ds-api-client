@@ -33,6 +33,19 @@ export type GraphQLResultOne = {
   errors?: { message: string }[];
 };
 
+export type GraphQLResultSchema = {
+  data?: {
+    demarcheDescriptor: {
+      id: string;
+      number: number;
+      title: string;
+      description: string;
+      state: string;
+    };
+  };
+  errors?: { message: string }[];
+};
+
 export type Attachment = {
   dossierNumber: number;
   url: string;
