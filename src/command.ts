@@ -9,7 +9,7 @@ import {
   DEFAULT_OUTPUT_DIRECTORY,
   DEFAULT_PARALLEL_DOWNLOADS,
 } from './utils';
-import { fetchOne, fetchMany } from './graphql';
+import { fetchOne, fetchMany, fetchSchema } from './graphql';
 import { downloadPage } from './download';
 import { createTable } from './table';
 
@@ -24,6 +24,28 @@ program
   .option('-o, --outdir <outdir>', 'Output directory', DEFAULT_OUTPUT_DIRECTORY)
   .action((options) => {
     fs.rmdirSync(options.outdir, { recursive: true });
+  });
+
+program
+  .command('demarche')
+  .description('Get demarche schema')
+  .argument('<demarcheNumber>', 'Demarche number', parseInt)
+  .option('--no-color', 'No colors')
+  .option('-j, --json', 'Print schema as JSON')
+  .option('--token <token>', 'API token')
+  .action(async (demarcheNumber, options) => {
+    const start = performance.now();
+    const result = await fetchSchema(demarcheNumber, options);
+
+    if (options.json) {
+      if (options.color) {
+        console.dir(result, { depth: 6 });
+      } else {
+        console.log(JSON.stringify(result, null, 2));
+      }
+    } else {
+      finalizeOutput(start, 1, BigInt(0));
+    }
   });
 
 program
@@ -142,7 +164,7 @@ program
 
     if (options.json) {
       if (options.color) {
-        console.dir(page.dossiers[0]);
+        console.dir(page.dossiers[0], { depth: 6 });
       } else {
         console.log(JSON.stringify(page.dossiers[0], null, 2));
       }

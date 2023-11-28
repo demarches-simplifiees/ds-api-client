@@ -1,4 +1,9 @@
-import type { GraphQLResultOne, GraphQLResultMany, Page } from './types';
+import type {
+  GraphQLResultOne,
+  GraphQLResultMany,
+  GraphQLResultSchema,
+  Page,
+} from './types';
 import { collectAttachments, collectGeoJSON } from './attachment';
 import { formatTime } from './utils';
 
@@ -131,6 +136,47 @@ export async function fetchOne(
       hasNextPage: false,
     },
   };
+}
+
+export async function fetchSchema(
+  demarcheNumber: number,
+  options?: {
+    json?: boolean;
+    token?: string;
+  }
+) {
+  const start = performance.now();
+  const result = await fetch(GRAPHQL_ENDPOINT, {
+    ...graphqlFetchOptions(options?.token),
+    body: JSON.stringify({
+      queryId: 'ds-query-v2',
+      variables: {
+        demarche: { number: demarcheNumber },
+        includeRevision: true,
+        includeService: true,
+      },
+      operationName: 'getDemarcheDescriptor',
+    }),
+  })
+    .then((res) => res.json<GraphQLResultSchema>())
+    .catch((error: Error) => {
+      return { errors: [error], data: null };
+    });
+
+  if (result.errors) {
+    console.error(result.errors);
+    return null;
+  } else if (!result.data) {
+    return null;
+  }
+
+  const end = performance.now();
+
+  if (!options?.json) {
+    console.log(`Demarche schema fetched in ${formatTime(end - start)}`);
+  }
+
+  return result.data.demarcheDescriptor;
 }
 
 const graphqlFetchOptions = (token?: string) => ({

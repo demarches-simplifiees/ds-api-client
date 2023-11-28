@@ -73,3 +73,21 @@ Options:
   --token <token>        API token
   -h, --help             display help for command
 ```
+
+```bash
+ds-api-client help demarche
+```
+```
+Usage: ds-api-client demarche [options] <demarcheNumber>
+
+Get demarche schema
+
+Arguments:
+  demarcheNumber   Demarche number
+
+Options:
+  --no-color       No colors
+  -j, --json       Print schema as JSON
+  --token <token>  API token
+  -h, --help       display help for command
+```
