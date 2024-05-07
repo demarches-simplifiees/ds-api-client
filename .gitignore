@@ -169,4 +169,6 @@ dist
 .pnp.\*
 
 data
-ds-api-client
+/ds-api-client.exe
+/ds-api-client-darwin-arm64
+/ds-api-client-linux-x64

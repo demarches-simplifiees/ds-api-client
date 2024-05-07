@@ -4,27 +4,29 @@
   "version": "0.1.0",
   "scripts": {
     "ds": "bun src/command.ts",
-    "compile": "bun build ./src/command.ts --compile --minify --target bun --outfile ds-api-client",
+    "compile:windows": "bun build ./src/command.ts --compile --minify --target bun-windows-x64-baseline --outfile ds-api-client.exe",
+    "compile:linux": "bun build ./src/command.ts --compile --minify --target bun-linux-x64 --outfile ds-api-client-linux-x64",
+    "compile:darwin": "bun build ./src/command.ts --compile --minify --target bun-darwin-arm64 --outfile ds-api-client-darwin-arm64",
     "up": "npx npm-check-updates --interactive --format group"
   },
   "devDependencies": {
-    "@commander-js/extra-typings": "^11.1.0",
+    "@commander-js/extra-typings": "^12.0.1",
     "@types/cli-progress": "^3.11.5",
-    "@types/geojson": "^7946.0.13",
+    "@types/geojson": "^7946.0.14",
     "@types/proj4": "^2.5.5",
     "bun-types": "latest",
-    "typescript": "^5.3.2"
+    "typescript": "^5.4.5"
   },
   "trustedDependencies": ["sharp"],
   "dependencies": {
     "@turf/turf": "^6.5.0",
-    "chrono-node": "^2.7.3",
+    "chrono-node": "^2.7.5",
     "cli-progress": "^3.12.0",
-    "commander": "^11.1.0",
-    "console-table-printer": "^2.11.2",
+    "commander": "^12.0.0",
+    "console-table-printer": "^2.12.0",
     "geojson2svg": "^2.0.1",
-    "proj4": "^2.9.2",
-    "remeda": "^1.29.0",
-    "zod": "^3.22.4"
+    "proj4": "^2.11.0",
+    "remeda": "^1.61.0",
+    "zod": "^3.23.6"
   }
 }

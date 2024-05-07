@@ -1,54 +1,28 @@
 name: Build CLI
 
-on: 
+on:
   push:
     tags:
-    - '*'
+      - "*"
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    needs: [build-linux, build-macos]
     permissions:
       contents: write
     steps:
-      - name: Download Linux build
-        uses: actions/download-artifact@v3
-        with:
-          name: ds-api-client-linux
-      - name: Download macOS build
-        uses: actions/download-artifact@v3
-        with:
-          name: ds-api-client-macos
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - name: Build for Linux
+        run: bun run compile:linux
+      - name: Build for macOS
+        run: bun run compile:darwin
+      - name: Build for windows
+        run: bun run compile:windows
       - name: Release
         uses: ncipollo/release-action@v1
         with:
           generateReleaseNotes: true
-          artifacts: "ds-api-client-linux, ds-api-client-macos"
+          artifacts: "ds-api-client-linux-x64, ds-api-client-darwin-arm64, ds-api-client.exe"
           artifactErrorsFailBuild: true
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: oven-sh/setup-bun@v1
-      - run: bun install
-      - run: bun run compile
-      - run: mv ds-api-client ds-api-client-linux
-      - name: Upload Linux build
-        uses: actions/upload-artifact@v3
-        with:
-          name: ds-api-client-linux
-          path: ds-api-client-linux
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: oven-sh/setup-bun@v1
-      - run: bun install
-      - run: bun run compile
-      - run: mv ds-api-client ds-api-client-macos
-      - name: Upload macOS build
-        uses: actions/upload-artifact@v3
-        with:
-          name: ds-api-client-macos
-          path: ds-api-client-macos
